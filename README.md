@@ -20,7 +20,7 @@ researchers to store their data. The app could do things such as:
   Currently, a lot of data is stored on Amazon s3 buckets, but we intend our project to store the data using AWS databases. For the NoSQL database, this means we anticipate using DynamoDB.
 
 ## Legal Considerations
-	We have been given permission to use data from Ghost Cat Analytics by David Healy (an employee at Ghost Cat). This information is also not super confidential, because it consists mostly of images of wildlife, so we do not anticipate running into too many issues regarding data privacy.
+  We have been given permission to use data from Ghost Cat Analytics by David Healy (an employee at Ghost Cat). This information is also not super confidential, because it consists mostly of images of wildlife, so we do not anticipate running into too many issues regarding data privacy.
 
 ## Business Considerations
-	While this may seem like a niche project, the business value of this product is quite large.  Our team member at Ghost Cat has many users that are anxiously awaiting this software integration to allow for easier access to their photos for simplified population tracking. 
+  While this may seem like a niche project, the business value of this product is quite large.  Our team member at Ghost Cat has many users that are anxiously awaiting this software integration to allow for easier access to their photos for simplified population tracking. 
