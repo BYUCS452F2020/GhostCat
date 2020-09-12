@@ -1,0 +1,26 @@
+Project description 
+
+I am interested in working on this project because I feel that it has real world value and application.  I have been eager to start working in fields that are relevant and carry high value for stakeholders.  After hearing about this project I can tell there are people who are very passionate about this issue and want something that will make it easier for them to complete the tasks they have been assigned.  Creating a solution for them will make tracking populations of animals a much less manual and painstaking process for these scientists so we can start to see more value coming out of their time rather than just seeing them process data.    
+
+ 
+
+Architectural, technology and integration considerations 
+
+The proposed structure sounds like it will be a perfect solution for this project.  Where the team is already using S3 buckets in AWS to store things creating a DynamoDB database will allow us to nearly seamlessly integrate our new storage solution to their current process.  
+
+ 
+ 
+
+Legal Considerations 
+
+I have no concerns with legality as the people from GhostCat are already involved and have approached you first.  I am eager to learn a little more about their legal processes and the ownership of the photos we will be processing. 
+
+ 
+ 
+
+Business Considerations 
+
+As previously mentioned I am eager to work with stakeholders who are passionate about this project.  I feel that will have a strong positive influenced on the business application of this product.  Alleviating time constraints from stakeholders will make them and us both eager to get more done.  
+
+ 
+ 
