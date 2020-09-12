@@ -1,22 +1,26 @@
-Project description
-Project background and overview
-Magpie Labs has spun out a service called Ghost Cat Analytics (ghostcat.io), to analyze
-the content of remote camera images used to track wildlife in large-scale studies. The
-service outputs predictions of what species and how many of each are in images.
-Previous clients have mostly just required large .csv summaries of the contents of their
-images, but future clients will want a web interface.
+Project description 
 
-What do you anticipate the team will build?
-The goal of the project will be to build a web application that will enable wildlife
-researchers to store their data. The app could do things such as:
-Provide a GUI for uploading new data into a database
-Provide a GUI for fetching images and filtering them by date ranges and species, as defined in the image metadata and ML model outputs.
+I am interested in working on this project because I feel that it has real world value and application.  I have been eager to start working in fields that are relevant and carry high value for stakeholders.  After hearing about this project I can tell there are people who are very passionate about this issue and want something that will make it easier for them to complete the tasks they have been assigned.  Creating a solution for them will make tracking populations of animals a much less manual and painstaking process for these scientists so we can start to see more value coming out of their time rather than just seeing them process data.    
+
  
-Architectural, technology and integration considerations
-Currently, a lot of data is stored on Amazon s3 buckets, but we intend our project to store the data using AWS databases. For the NoSQL database, this means we anticipate using DynamoDB.
 
-Legal Considerations
-	We have been given permission to use data from Ghost Cat Analytics by David Healy (an employee at Ghost Cat). This information is also not super confidential, because it consists mostly of images of wildlife, so we do not anticipate running into too many issues regarding data privacy.
+Architectural, technology and integration considerations 
 
-Business Considerations
-	While this may seem like a niche project, the business value of this product is quite large.  Our team member at Ghost Cat has many users that are anxiously awaiting this software integration to allow for easier access to their photos for simplified population tracking. 
+The proposed structure sounds like it will be a perfect solution for this project.  Where the team is already using S3 buckets in AWS to store things creating a DynamoDB database will allow us to nearly seamlessly integrate our new storage solution to their current process.  
+
+ 
+ 
+
+Legal Considerations 
+
+I have no concerns with legality as the people from GhostCat are already involved and have approached you first.  I am eager to learn a little more about their legal processes and the ownership of the photos we will be processing. 
+
+ 
+ 
+
+Business Considerations 
+
+As previously mentioned I am eager to work with stakeholders who are passionate about this project.  I feel that will have a strong positive influenced on the business application of this product.  Alleviating time constraints from stakeholders will make them and us both eager to get more done.  
+
+ 
+ 
