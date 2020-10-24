@@ -29,24 +29,21 @@ public class AnimalsDao {
      *                              animal to the database
      */
     public boolean insert(Animal animal) throws DataAccessException {
-        boolean commit = true;
-
-        String sql = "INSERT INTO Animal (animal_id, animal_species, animal_age) VALUES(?,?,?)";
+        String sql = "INSERT INTO Animals (animal_id, animal_species, animal_age) VALUES(?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, animal.getAnimalId());
             stmt.setString(2, animal.getAnimalSpecies());
             stmt.setString(3, animal.getAnimalAgeString());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            commit = false;
             throw new DataAccessException("Error encountered while inserting into the database");
         }
 
-        return commit;
+        return true;
     }
 
     /**
-     * Gives every event in the Events table of our database
+     * Gives every animal in the Animals table of our database
      * @return an ArrayList containing every event in the database
      */
     public ArrayList<Animal> getAllAnimals() throws DataAccessException {
@@ -57,7 +54,7 @@ public class AnimalsDao {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             rs = stmt.executeQuery();
 
-            while (rs.next() == true) {
+            while (rs.next()) {
                 animals.add(new Animal(rs.getString("animal_species"), rs.getString("animal_age"),
                         rs.getString("animal_id")));
             }

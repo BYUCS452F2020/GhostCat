@@ -7,7 +7,7 @@ enum AnimalAgeGroup {
   Adult,
   Elderly;
 
-  public String toString(AnimalAgeGroup age) {
+  public static String toString(AnimalAgeGroup age) {
     switch(age) {
       case Child:
         return "child";
@@ -20,6 +20,7 @@ enum AnimalAgeGroup {
       case Elderly:
         return "elderly";
     }
+    return "";
   }
 }
 
@@ -67,7 +68,7 @@ public class Animal {
   }
 
   public String getAnimalAgeString() {
-    return this.animal_age.toString();
+    return AnimalAgeGroup.toString(this.animal_age);
   }
 
   public String getAnimalId() {

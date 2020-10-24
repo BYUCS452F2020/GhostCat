@@ -71,66 +71,61 @@ public class Database {
     }
 
     /**
-     * Creates a table in our database for each of the five tables: ImageBinaries, ImageMetadata, Cameras, MachineLearningMetadata, and Animals
+     * Creates a table in our database for each of the five tables: ImageUrls, ImageMetadata, Cameras, MachineLearningMetadata, and Animals
      * @throws DataAccessException if a SQL error occurred while creating the tables
      */
     public void createTables() throws DataAccessException {
 
         try (Statement stmt = conn.createStatement()) {
 
-            String sqlImageBinary = "CREATE TABLE IF NOT EXISTS ImageBinaries " +
+            String sqlImageBinary = "CREATE TABLE IF NOT EXISTS ImageUrls " +
                     "(" +
                     "image_id text not null unique, " +
+                    "image_url text not null unique, " +
                     "primary key (image_id)" +
-                    "image_binary text not null unique" +
                     ")";
-
             stmt.executeUpdate(sqlImageBinary);
-
-            String sqlImageMetadata = "CREATE TABLE IF NOT EXISTS ImageMetadata " +
-                    "(" +
-                    "image_id text not null, " +
-                    "primary key (image_id), " +
-                    "foreign key (image_id) references ImageBinaries(image_id), " +
-                    "time integer not null, " +
-                    "date integer not null, " +
-                    "camera_id text not null, " +
-                    "foreign key (camera_id) references Cameras(camera_id)" +
-                    ")";
-
-            stmt.executeUpdate(sqlImageMetadata);
 
             String sqlCameras = "CREATE TABLE IF NOT EXISTS Cameras " +
                     "(" +
                     "camera_id text not null unique, " +
-                    "primary key (camera_id), " +
                     "camera_type text not null, " +
-                    "location text not null" +
+                    "location text not null, " +
+                    "primary key (camera_id)" +
                     ")";
-
             stmt.executeUpdate(sqlCameras);
-
-            String sqlMachineLearning = "CREATE TABLE IF NOT EXISTS MachineLearningMetadata " +
-                    "(" +
-                    "image_id text not null unique, " +
-                    "primary key (image_id), " +
-                    "foreign key (image_id) references ImageBinaries(image_id), " +
-                    "environment text not null, " +
-                    "animal_id text not null, " +
-                    "foreign key (animal_id) references Animals(animal_id), " +
-                    ")";
-
-            stmt.executeUpdate(sqlMachineLearning);
 
             String sqlAnimals = "CREATE TABLE IF NOT EXISTS Animals " +
                     "(" +
                     "animal_id text not null unique, " +
-                    "primary key (animal_id), " +
                     "animal_species text, " +
-                    "animal_age text" +
+                    "animal_age text, " +
+                    "primary key (animal_id)" +
                     ")";
-
             stmt.executeUpdate(sqlAnimals);
+
+            String sqlMachineLearning = "CREATE TABLE IF NOT EXISTS MachineLearningMetadata " +
+                    "(" +
+                    "image_id text not null unique, " +
+                    "environment text not null, " +
+                    "animal_id text not null, " +
+                    "primary key (image_id), " +
+                    "foreign key (image_id) references ImageUrls(image_id), " +
+                    "foreign key (animal_id) references Animals(animal_id)" +
+                    ")";
+            stmt.executeUpdate(sqlMachineLearning);
+
+            String sqlImageMetadata = "CREATE TABLE IF NOT EXISTS ImageMetadata " +
+                    "(" +
+                    "image_id text not null, " +
+                    "time integer not null, " +
+                    "date integer not null, " +
+                    "camera_id text not null, " +
+                    "primary key (image_id), " +
+                    "foreign key (image_id) references ImageUrls(image_id), " +
+                    "foreign key (camera_id) references Cameras(camera_id)" +
+                    ")";
+            stmt.executeUpdate(sqlImageMetadata);
 
         } catch (SQLException e) {
             throw new DataAccessException("SQL Error encountered while creating tables");
@@ -138,14 +133,14 @@ public class Database {
     }
 
     /**
-     * Clears all data from our five tables: ImageBinaries, ImageMetadata, Cameras, MachineLearningMetadata, and Animals
+     * Clears all data from our five tables: ImageUrls, ImageMetadata, Cameras, MachineLearningMetadata, and Animals
      * @throws DataAccessException if a SQL error occurred while clearing the tables
      */
     public void clearTables() throws DataAccessException {
 
         try (Statement stmt = conn.createStatement()){
 
-            String sqlImageBinary = "DELETE FROM ImageBinaries";
+            String sqlImageBinary = "DELETE FROM ImageUrls";
             stmt.executeUpdate(sqlImageBinary);
 
             String sqlImageMetadata = "DELETE FROM ImageMetadata";

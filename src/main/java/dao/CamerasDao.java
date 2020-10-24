@@ -29,27 +29,23 @@ public class CamerasDao {
      *                              camera to the database
      */
     public boolean insert(Camera camera) throws DataAccessException {
-        boolean commit = true;
-
         String sql = "INSERT INTO Cameras (camera_id, camera_type, location) VALUES(?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, camera.getCameraId());
             stmt.setString(2, camera.getCameraType());
-            stmt.setString(3, camera.getCameraLocation());
+            stmt.setString(3, camera.getLocation());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            commit = false;
             throw new DataAccessException("Error encountered while inserting into the database");
         }
-
-        return commit;
+        return true;
     }
 
     /**
-     * Gives every event in the Events table of our database
+     * Gives every camera in the Cameras table of our database
      * @return an ArrayList containing every event in the database
      */
-    public ArrayList<camera> getAllCameras() throws DataAccessException {
+    public ArrayList<Camera> getAllCameras() throws DataAccessException {
         ArrayList<Camera> cameras = new ArrayList<>();
         ResultSet rs = null;
 
@@ -57,9 +53,9 @@ public class CamerasDao {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             rs = stmt.executeQuery();
 
-            while (rs.next() == true) {
-                cameras.add(new Camera(rs.getString("camera_type"), rs.getString("location"),
-                        rs.getString("camera_id")));
+            while (rs.next()) {
+                cameras.add(new Camera(rs.getString("camera_id"),
+                        rs.getString("camera_type"), rs.getString("location")));
             }
 
             if (cameras.size() > 0) {
