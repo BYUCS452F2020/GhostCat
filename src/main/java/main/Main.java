@@ -18,9 +18,29 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class Main {
-  public static void main(String[] args) throws DataAccessException {
+  private static int animal_id = 0;
+  private static int camera_id = 0;
+  private static int image_id = 0;
+
+  public static void main(String[] args) {
     Database db = new Database();
+    try {
+//      createDatabaseWithTables(db);
+//      insertDummyDataIntoDatabase(db);
+//      printDummyDataFromDatabase(db);
+//      getSqlFromUserAndExecute(db);
+      addLotsOfDataToDatabase(db);
+    } catch (DataAccessException e) {
+      e.printStackTrace();
+      exit(1);
+    }
+
+  }
+
+  public static void createDatabaseWithTables(Database db) throws DataAccessException {
     try {
       db.openConnection();
       db.createTables();
@@ -29,7 +49,31 @@ public class Main {
       dataAccessException.printStackTrace();
       db.closeConnection(false);
     }
+  }
 
+  public static void getSqlFromUserAndExecute(Database db) throws DataAccessException {
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("SELECT: ");
+    String selectClause = scanner.nextLine();
+    System.out.println("FROM: ");
+    String fromClause = scanner.nextLine();
+    System.out.println("WHERE: ");
+    String whereClause = scanner.nextLine();
+
+    try {
+      Connection conn = db.openConnection();
+      QueryRunner queryRunner = new QueryRunner(conn);
+      queryRunner.runSelectStatement(selectClause, fromClause, whereClause);
+      db.clearTables();
+      db.closeConnection(true);
+    } catch (DataAccessException dataAccessException) {
+      dataAccessException.printStackTrace();
+      db.closeConnection(false);
+    }
+
+  }
+
+  public static void insertDummyDataIntoDatabase(Database db) throws DataAccessException {
     try {
       Connection conn = db.openConnection();
       Animal animal = new Animal("species", "child", "id");
@@ -60,7 +104,9 @@ public class Main {
       dataAccessException.printStackTrace();
       db.closeConnection(false);
     }
+  }
 
+  public static void printDummyDataFromDatabase(Database db) throws DataAccessException {
     try {
       Connection conn = db.openConnection();
 
@@ -108,24 +154,67 @@ public class Main {
       dataAccessException.printStackTrace();
       db.closeConnection(false);
     }
+  }
 
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("SELECT: ");
-    String selectClause = scanner.nextLine();
-    System.out.println("FROM: ");
-    String fromClause = scanner.nextLine();
-    System.out.println("WHERE: ");
-    String whereClause = scanner.nextLine();
-
+  public static void addLotsOfDataToDatabase(Database db) throws DataAccessException {
     try {
-      Connection conn = db.openConnection();
-      QueryRunner queryRunner = new QueryRunner(conn);
-      queryRunner.runSelectStatement(selectClause, fromClause, whereClause);
-      db.clearTables();
-      db.closeConnection(true);
-    } catch (DataAccessException dataAccessException) {
-      dataAccessException.printStackTrace();
-      db.closeConnection(false);
+      Connection connection = db.openConnection();
+      AnimalsDao animalsDao = new AnimalsDao(conn);
+      CamerasDao camerasDao = new CamerasDao(conn);
+      ImageUrlsDao imageUrlsDao = new ImageUrlsDao(conn);
+      ImageMetadataDao imageMetadataDao = new ImageMetadataDao(conn);
+      MachineLearningMetadataDao machineLearningMetadataDao = new MachineLearningMetadataDao(conn);
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
+
+  private static Animal getRandomAnimal() {
+    String animal_species = "";
+    if (animal_id % 3 == 0) {
+      animal_species = "mule deer";
+    } else if (animal_id % 3 == 1) {
+      animal_species = "elephant";
+    } else {
+      animal_species = "squirrel";
+    }
+    animal_id++;
+
+    return new Animal(animal_species, "adolescent", Integer.toString(animal_id));
+  }
+
+  private static Camera getRandomCamera() {
+    String camera_type = "";
+    String location = "";
+    if (camera_id % 3 == 0) {
+      camera_type = "wide lens";
+      location = "savannah";
+    } else if (camera_id % 3 == 1) {
+      camera_type = "narrow lens";
+      location = "arctic";
+    } else {
+      camera_type = "drone camera";
+      location = "forest";
+    }
+    camera_id++;
+
+    return new Camera(Integer.toString(camera_id), camera_type, location);
+  }
+
+  private static Image getRandomImage() {
+
+    return new Image();
+  }
+
+  private static ImageMetadata getRandomImageMetadata() {
+
+    return new ImageMetadata();
+  }
+
+  private static MachineLearningMetadata getRandomMachineLearningMetadata() {
+
+    return new MachineLearningMetadata();
   }
 }
