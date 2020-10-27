@@ -16,6 +16,7 @@ import model.MachineLearningMetadata;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -24,20 +25,21 @@ public class Main {
   private static int animal_id = 0;
   private static int camera_id = 0;
   private static int image_id = 0;
+  private static Random random = new Random();
 
   public static void main(String[] args) {
     Database db = new Database();
     try {
-//      createDatabaseWithTables(db);
-//      insertDummyDataIntoDatabase(db);
-//      printDummyDataFromDatabase(db);
-//      getSqlFromUserAndExecute(db);
-      addLotsOfDataToDatabase(db);
+      createDatabaseWithTables(db);
+      insertDummyDataIntoDatabase(db);
+      printDummyDataFromDatabase(db);
+      getSqlFromUserAndExecute(db);
+      //addLotsOfDataToDatabase(db);
+      //clearDataFromDatabaseTables(db);
     } catch (DataAccessException e) {
       e.printStackTrace();
       exit(1);
     }
-
   }
 
   public static void createDatabaseWithTables(Database db) throws DataAccessException {
@@ -64,7 +66,6 @@ public class Main {
       Connection conn = db.openConnection();
       QueryRunner queryRunner = new QueryRunner(conn);
       queryRunner.runSelectStatement(selectClause, fromClause, whereClause);
-      db.clearTables();
       db.closeConnection(true);
     } catch (DataAccessException dataAccessException) {
       dataAccessException.printStackTrace();
@@ -159,15 +160,36 @@ public class Main {
   public static void addLotsOfDataToDatabase(Database db) throws DataAccessException {
     try {
       Connection connection = db.openConnection();
-      AnimalsDao animalsDao = new AnimalsDao(conn);
-      CamerasDao camerasDao = new CamerasDao(conn);
-      ImageUrlsDao imageUrlsDao = new ImageUrlsDao(conn);
-      ImageMetadataDao imageMetadataDao = new ImageMetadataDao(conn);
-      MachineLearningMetadataDao machineLearningMetadataDao = new MachineLearningMetadataDao(conn);
+      AnimalsDao animalsDao = new AnimalsDao(connection);
+      CamerasDao camerasDao = new CamerasDao(connection);
+      ImageUrlsDao imageUrlsDao = new ImageUrlsDao(connection);
+      ImageMetadataDao imageMetadataDao = new ImageMetadataDao(connection);
+      MachineLearningMetadataDao machineLearningMetadataDao = new MachineLearningMetadataDao(connection);
 
+      for (int i = 0; i < 100; i++) {
+        animalsDao.insert(getRandomAnimal());
+        camerasDao.insert(getRandomCamera());
+        imageUrlsDao.insert(getRandomImage());
+        imageMetadataDao.insert(getRandomImageMetadata());
+        machineLearningMetadataDao.insert(getRandomMachineLearningMetadata());
+      }
+
+      db.closeConnection(true);
 
     } catch (Exception e) {
       e.printStackTrace();
+      db.closeConnection(false);
+    }
+  }
+
+  public static void clearDataFromDatabaseTables(Database db) throws DataAccessException {
+    try {
+      db.openConnection();
+      db.clearTables();
+      db.closeConnection(true);
+    } catch (DataAccessException e) {
+      e.printStackTrace();
+      db.closeConnection(false);
     }
   }
 
@@ -204,17 +226,33 @@ public class Main {
   }
 
   private static Image getRandomImage() {
-
-    return new Image();
+    image_id++;
+    if (image_id%2 == 0) {
+      return new Image(Integer.toString(image_id), "https://www.google.com/" + image_id);
+    } else {
+      return new Image(Integer.toString(image_id), "https://www.amazon.com/" + image_id);
+    }
   }
 
   private static ImageMetadata getRandomImageMetadata() {
+    image_id++;
+    camera_id++;
 
-    return new ImageMetadata();
+    return new ImageMetadata(Integer.toString(image_id), random.nextInt(25), random.nextInt(12312020), Integer.toString(camera_id));
   }
 
   private static MachineLearningMetadata getRandomMachineLearningMetadata() {
+    image_id++;
+    animal_id++;
+    String environment = "";
 
-    return new MachineLearningMetadata();
+    if (image_id%3 == 0) {
+      environment = "desert";
+    } else if (image_id%3 == 1) {
+      environment = "rainforest";
+    } else {
+      environment = "great basin";
+    }
+    return new MachineLearningMetadata(Integer.toString(image_id), environment, Integer.toString(animal_id));
   }
 }
